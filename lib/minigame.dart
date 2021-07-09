@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,6 +23,14 @@ class MoveGameEngine extends GameEngine {
     if (_targetPositionY > _gameViewSize!.height) {
       _targetPositionY = -20.0;
     }
+    var ghost0 = Rect.fromLTRB(_targetPositionX, _targetPositionY, _targetPositionX+100, _targetPositionY+50);
+    var ghost1 = Rect.fromLTRB(_targetPositionX1, _targetPositionY, _targetPositionX1+100, _targetPositionY+50);
+    var ship = Rect.fromLTRB(100, 400, 130, 450);
+    if (collision(ship, ghost0) || collision(ship, ghost1)) {
+      // TODO end of game
+      print('hitting');
+      // ship.shift(Offset(dx, 0));
+    }
     forceRedraw();
   }
 
@@ -30,10 +40,24 @@ class MoveGameEngine extends GameEngine {
       _targetPositionX = 10.0;
       _targetPositionY = 0.0;
     }
-  }
 
+
+  }
   void setGameViewSize(Size? size) {
     if (size != null) _gameViewSize = size;
+  }
+
+  bool collision(Rect r0, Rect r1){
+      return pointInRect(r1, Point(r0.left, r0.top)) ||
+          pointInRect(r1, Point(r0.right, r0.top)) ||
+          pointInRect(r1, Point(r0.left, r0.bottom)) ||
+          pointInRect(r1, Point(r0.right, r0.bottom));
+  }
+
+  bool pointInRect(Rect r, Point p){
+    return
+      r.left <= p.x && p.x < r.right &&
+      r.top <= p.y && p.y < r.bottom;
   }
 }
 
