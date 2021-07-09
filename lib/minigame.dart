@@ -28,7 +28,7 @@ class MoveGameEngine extends GameEngine {
     var ship = Rect.fromLTRB(100, 400, 130, 450);
     if (collision(ship, ghost0) || collision(ship, ghost1)) {
       // TODO end of game
-      print('hitting');
+      print('hit');
       // ship.shift(Offset(dx, 0));
     }
     forceRedraw();
